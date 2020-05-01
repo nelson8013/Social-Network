@@ -30,7 +30,7 @@ if(isset($_POST['confirm']))
             DB::query('DELETE FROM login_tokens WHERE token = ?',array(sha1($_COOKIE['SNID'])));
         }
         setcookie('SNID','1', time()-3600);
-        setcookie('SNID_','1', time()-3600);
+        setcookie('SNID_LONG','1', time()-3600);
     }
 }
 else

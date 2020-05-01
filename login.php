@@ -11,12 +11,12 @@ if(isset($_POST['login']))
   //Step 2 . To log in, we need to check if the username exists in DB by querying the DB
   if(DB::query('SELECT id FROM users WHERE username = ?', array($username)))
   {
-    $userId = DB::query('SELECT id FROM users WHERE username = ?', array($username))[0]['id'];
+    $user_id = DB::query('SELECT id FROM users WHERE username = ?', array($username))[0]['id'];
     //Step 3. Check if the password provided matches the hashed version in our DB
     if(password_verify($password, DB::query('SELECT password FROM users WHERE username = ?', array($username))[0]['password']))
     {
       echo "Logged In";
-      Login::refreshTokens($userId);
+      Login::refreshTokens($user_id);
     }
     else
     {
@@ -38,5 +38,6 @@ if(isset($_POST['login']))
 <a href="create-account.php" >Create Account</a>
 <a href="logout.php" >Logout</a>
 <a type="submit" href="change-password.php">Change Password</a>
+<a type="submit" href="forgot-password.php">Forgot Password</a>
 
 </form>

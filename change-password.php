@@ -9,12 +9,33 @@ if(Login::isLoggedIn())
     {
         //Grab the input from the fields
         $oldpassword = $_POST['oldpassword'];
+        $newpassword = $_POST['newpassword'];
+        $newpasswordrepeat = $_POST['newpasswordrepeat'];
+
         $userid = Login::isLoggedIn();
 
         //check if the value of the oldpassword is the same as the one on the db
         if(password_verify($oldpassword,DB::query('SELECT password FROM users WHERE id = ?',array($userid ))[0]['password']))
             {
-                
+                //check if the new password is the same with the repeat password
+                if($newpassword == $newpasswordrepeat)
+                {
+                    //our validation will only be for the new password only and not the repeat password
+                    if(strlen($newpassword) >=6 && strlen($newpassword)<=60)
+                    {
+                        //Query to update the users password in the users table
+                        DB::query("UPDATE users SET password = ? WHERE id = ?", array(password_hash($newpassword,PASSWORD_BCRYPT),$userid));
+                        echo "Password Changed Successfully";
+                    }
+                    else
+                    {
+
+                    }
+                }
+                else
+                {
+                    echo "Passwords don't match";
+                }
             }
             else
             {
@@ -24,6 +45,7 @@ if(Login::isLoggedIn())
 }
 else
 {
+    //check for the token passed to the page
     echo "You're Not logged In";
 }
 ?>
@@ -34,6 +56,7 @@ else
     <input type="password" name="newpassword" value="" placeholder="New Password Here"><p />
     <input type="password" name="newpasswordrepeat" value="" placeholder="Repeat New Password Here"><p />
     <input type="submit" name="changepassword" value="Change Password">
-    <a type="submit" href="login.php">Login</a><br>
+    <a href="login.php">Login</a><br>
+    <a href="logout.php">Logout</a><br>
     
 </form>

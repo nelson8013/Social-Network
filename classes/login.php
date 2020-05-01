@@ -16,7 +16,7 @@ class Login
                 
                 //Once we know the user is logged in with a valid cookie and we have the user id,
                 //We'll check if the second cookie is still set.
-                if(isset($_COOKIE['SSID_']))
+                if(isset($_COOKIE['SNID_LONG']))
                 {
                     return $userid;
                 }
@@ -30,22 +30,25 @@ class Login
             } else {
                 return false;
             }
-        }
+        } 
         else
         {
-            //End of Step 1.
+           
             return false;
-        }
+        } //End of Step 1.
     }
 
 
-    public static function refreshTokens(int $userID)
+    public static function refreshTokens(int $user_id)
     {
-        $cstrong = true; 
-        $token = bin2hex(openssl_random_pseudo_bytes(64, $cstrong)); 
-        
-        //This inserts the new token
-        DB::query('INSERT INTO login_tokens(token,user_id) VALUES(?,?)', array(sha1($token), $userID));
+        //The token is put in the cookie
+            $cstrong = true; //cryptographically secure
+            $token = bin2hex(openssl_random_pseudo_bytes(64, $cstrong)); //bin2hex (generates some random bytes)
+
+            //The id query represented by the $user_id variable is on the login.php file which may be here
+
+        //This inserts the new token into OUR DB
+        DB::query('INSERT INTO login_tokens(token,user_id) VALUES(?,?)', array(sha1($token), $user_id));
 
         //This deletes the old token
         DB::query('DELETE FROM login_tokens WHERE token = ?',array(sha1($_COOKIE['SSID'])));

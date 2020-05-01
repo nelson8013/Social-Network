@@ -1,7 +1,7 @@
 <?php
 include_once './classes/DB.php';
 include_once './classes/login.php';
-
+$tokenIsValid = false;
 if (Login::isLoggedIn()) 
 {
   //Check if the change-password button is clicked
@@ -45,7 +45,6 @@ if (Login::isLoggedIn())
 } 
 else //If the User is not logged In
 {
-  $tokenIsValid = false;
   //Check if a GET param has been passed in the URL, which is a token
   //If the user isn't logged in, we'll check for the token passed to the page
 

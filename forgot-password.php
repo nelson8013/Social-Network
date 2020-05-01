@@ -10,6 +10,7 @@ if(isset($_POST['resetpassword']))
             $user_id = DB::query("SELECT id FROM users WHERE email = ?",array($email))[0]['id'];
             DB::query("INSERT INTO password_tokens(token,user_id) VALUES(?,?)",array(sha1($token),$user_id));
             echo "Email Sent";
+            //This is to mock the send mail() fnc in php
 }
 
 

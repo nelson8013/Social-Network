@@ -15,7 +15,7 @@ if(isset($_POST['login']))
     //Step 3. Check if the password provided matches the hashed version in our DB
     if(password_verify($password, DB::query('SELECT password FROM users WHERE username = ?', array($username))[0]['password']))
     {
-      echo "Logged In";
+      echo "Welcome $username";
       Login::refreshTokens($user_id);
     }
     else

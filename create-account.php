@@ -26,7 +26,7 @@ if (isset($_POST['createaccount'])) {
             if (!DB::query('SELECT email FROM users WHERE email = ?', array($email))) 
             {
               //Insert The user into the Database
-              DB::query('INSERT INTO users(username,password,email) VALUES(?, ?, ?)', array($username, password_hash($password, PASSWORD_BCRYPT), $email));
+              DB::query('INSERT INTO users(username,password,email,verified) VALUES(?, ?, ?,0)', array($username, password_hash($password, PASSWORD_BCRYPT), $email));
 
               print "Account Created Successfully";
             } 

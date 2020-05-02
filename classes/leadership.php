@@ -4,7 +4,8 @@ class Leader
 {
     public static function follow($user_id,$follower_id)
     {
-        //Check if the form is being submitted
+        if($user_id !== $follower_id)
+        {
         
             //And when the follow button is clicked, check if user B is already following user A
             if(!DB::query("SELECT follower_id FROM followers WHERE user_id = ?",array($user_id)))
@@ -17,13 +18,20 @@ class Leader
             {
                echo "Already Following"; 
             } 
-            $isFollowing = true; 
+            $isFollowing = true;
+        } 
+        else
+        {
+            die("You Can't follow yourself");
         }
+    }
     
 
     public static function Unfollow($user_id,$follower_id)
     {
         
+        if($user_id !== $follower_id)
+        {
             //when the unfollow button is clicked, check if user B is following user A
             if(DB::query("SELECT follower_id FROM followers WHERE user_id = ?",array($user_id)))
             {
@@ -33,6 +41,8 @@ class Leader
             } 
            
             $isFollowing = false; 
+        
+        }
         
     }
 
